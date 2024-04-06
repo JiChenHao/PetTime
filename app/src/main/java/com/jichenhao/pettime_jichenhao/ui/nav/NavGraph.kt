@@ -3,6 +3,8 @@ package com.jichenhao.pettime_jichenhao.ui.nav
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -26,6 +28,7 @@ import com.jichenhao.pettime_jichenhao.viewModel.UserViewModel
 
 @Composable
 fun NavGraph(
+    navController: NavHostController,
     // 从MainActivity获取到全局唯一的ViewModel实例（由hilt管理并且注入到Activity）
     albumViewModel: AlbumViewModel,
     userViewModel: UserViewModel,
@@ -39,8 +42,7 @@ fun NavGraph(
     navController: 是一个NavHostController实例，它是导航图的控制器，用于发起屏幕间的跳转操作。
     startDestination: 指定导航图中的起始页面路由字符串，这里是ScreenPage.Home.route，即应用启动后首先显示的页面。
     * */
-    // 全局唯一的navController
-    val navController = rememberNavController()
+
     NavHost(navController, startDestination = ScreenPage.Splash.route) { // 设置起始页为登录页
         /*
         * composable

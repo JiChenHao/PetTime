@@ -60,15 +60,6 @@ fun PetScreen(
     onNavigateToPetUpdateScreen: () -> Unit// 用于点击卡片跳转到修改宠物信息页面
 ) {
     Scaffold(
-        bottomBar = {
-            PetTimeBottomNavigationBar(
-                selectedNum = 4,
-                onNavigateToMainScreen = onNavigateToMainScreen,
-                onNavigateToKnowledgeScreen = onNavigateToKnowledgeScreen,
-                onNavigateToPetScreen = onNavigateToPetScreen,
-                onNavigateToUserScreen = onNavigateToUserScreen
-            )
-        },
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = {

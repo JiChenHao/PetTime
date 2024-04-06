@@ -111,9 +111,9 @@ object PetTimeNetwork {
                     } else {
                         Log.d(
                             "PetTime",
-                            "NetWork层suspend .await()函数执行，且Server responded with error."
+                            "NetWork层suspend .await()函数执行，且Server responded with error${response.code()}."
                         )
-                        continuation.resumeWithException(IOException("Unexpected code $response.code. Server responded with error."))
+                        continuation.resumeWithException(IOException("Unexpected code ${response.code()}. Server responded with error."))
                     }
                 }
 

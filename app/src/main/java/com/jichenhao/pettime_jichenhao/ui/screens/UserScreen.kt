@@ -50,15 +50,6 @@ fun UserScreen(
     val userLoggedIn by viewModel.loggedInUser.collectAsState()
 
     Scaffold(
-        bottomBar = {
-            PetTimeBottomNavigationBar(
-                selectedNum = 5,
-                onNavigateToMainScreen = onNavigateToMainScreen,
-                onNavigateToKnowledgeScreen = onNavigateToKnowledgeScreen,
-                onNavigateToPetScreen = onNavigateToPetScreen,
-                onNavigateToUserScreen = onNavigateToUserScreen
-            )
-        }
     ) { innerPadding ->
         Box(
             modifier = Modifier

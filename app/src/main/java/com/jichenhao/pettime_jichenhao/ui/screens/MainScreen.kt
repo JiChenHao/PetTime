@@ -65,15 +65,6 @@ fun MainScreen(
     val pagerState = rememberPagerState(pageCount = { albumList.size })
 
     Scaffold(
-        bottomBar = {
-            PetTimeBottomNavigationBar(
-                selectedNum = 1,
-                onNavigateToMainScreen = onNavigateToMainScreen,
-                onNavigateToKnowledgeScreen = onNavigateToKnowledgeScreen,
-                onNavigateToPetScreen = onNavigateToPetScreen,
-                onNavigateToUserScreen = onNavigateToUserScreen
-            )
-        }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
             // 背景图片

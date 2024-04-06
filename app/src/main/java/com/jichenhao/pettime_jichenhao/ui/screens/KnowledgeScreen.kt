@@ -31,15 +31,6 @@ fun KnowledgeScreen(
     val petCuisineList by petCuisineViewModel.petCuisineList.collectAsState()
 
     Scaffold(
-        bottomBar = {
-            PetTimeBottomNavigationBar(
-                selectedNum = 2,
-                onNavigateToMainScreen = onNavigateToMainScreen,
-                onNavigateToKnowledgeScreen = onNavigateToKnowledgeScreen,
-                onNavigateToPetScreen = onNavigateToPetScreen,
-                onNavigateToUserScreen = onNavigateToUserScreen
-            )
-        }
     ) { innerPadding ->
         Box(
             modifier = Modifier

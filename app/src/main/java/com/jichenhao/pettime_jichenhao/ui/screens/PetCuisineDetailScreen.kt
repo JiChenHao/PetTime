@@ -170,7 +170,7 @@ fun PetCuisineDetailScreen(
                 Spacer(modifier = Modifier.size(10.dp))
                 androidx.compose.material3.Text(
                     text = petCuisineInfo.food_name,
-                    color = Color.White,
+                    color = Color.Black,
                     style = MaterialTheme.typography.headlineMedium
                 )
                 Spacer(modifier = Modifier.size(10.dp))

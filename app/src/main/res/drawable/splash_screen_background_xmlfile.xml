@@ -1,0 +1,5 @@
+<!-- res/drawable/splash_screen_background.xml -->
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center|fill_horizontal|fill_vertical"
+    android:scaleType="fitCenter"
+    android:src="@drawable/splash_screen_background" /> <!-- 或 fitXY, centerCrop 等 -->

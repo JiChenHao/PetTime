@@ -38,7 +38,6 @@ fun SplashScreen(
             modifier = Modifier
                 .fillMaxSize(),
             contentScale = ContentScale.FillWidth
-
         )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

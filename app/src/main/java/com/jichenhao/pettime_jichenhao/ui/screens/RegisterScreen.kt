@@ -141,7 +141,7 @@ fun RegisterScreen(
                     onValueChange = {
                         email = it
                     },
-                    label = { Text("Email") },
+                    label = { Text("请输入合法的邮箱") },
                     modifier = Modifier
                         .fillMaxWidth()
                         .focusable(true),
@@ -154,7 +154,7 @@ fun RegisterScreen(
                     onValueChange = {
                         password1 = it
                     },
-                    label = { Text("Password") },
+                    label = { Text("请输入至少六位密码") },
                     maxLines = 1,
                     visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
@@ -176,7 +176,7 @@ fun RegisterScreen(
                     onValueChange = {
                         password2 = it
                     },
-                    label = { Text("Password") },
+                    label = { Text("请再次输入六位密码") },
                     maxLines = 1,
                     visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
@@ -196,7 +196,22 @@ fun RegisterScreen(
                 Button(
                     onClick = {
                         Log.d("注册", "LoginButtonDown")
-                        viewModel.register(email, password1, password2)
+                        // 验证密码和邮箱的合法性
+                        if(viewModel.checkFormatOfEmailAndPassword(email, password1)){
+                            // 如果合法
+                            if(password1 == password2){
+                                viewModel.register(email, password1, password2)
+                            }else{
+                                // 弹窗
+                                viewModel.setMessage("两次密码不一样，请检查！")
+                                viewModel.showDialog()
+                            }
+                        }else{
+                            // 如果不合法
+                            // 弹窗
+                            viewModel.setMessage("用户名或者密码不合法，请确保用户名为标准邮箱格式，密码位数超过六位！")
+                            viewModel.showDialog()
+                        }
                         //订阅ViewModel中的loginResult，一旦登陆成功这边就可以处理UI界面
                     }
                 ) {
@@ -204,7 +219,6 @@ fun RegisterScreen(
                 }
             }
         }
-
     }
 
 }

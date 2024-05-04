@@ -30,7 +30,6 @@ class AuthInterceptor(private val getToken: () -> String) : Interceptor {
             Log.d("jwtTOKEN添加到header","$token")
             requestBuilder.header("Authorization", "Bearer $token")
         }
-
         // 使用新的请求构建器来创建并发出一个已添加了Token的请求
         // proceed方法会继续执行请求，并返回响应
         return chain.proceed(requestBuilder.build())

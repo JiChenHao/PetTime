@@ -115,7 +115,7 @@ fun LoginScreen(
                 email = it
                 isManuallyEditing = true
             },
-            label = { Text("Email") },
+            label = { Text("请输入合法的邮箱") },
             modifier = Modifier
                 .fillMaxWidth()
                 .focusable(true),
@@ -129,7 +129,7 @@ fun LoginScreen(
                 password = it
                 isManuallyEditing = true
             },
-            label = { Text("Password") },
+            label = { Text("请至少输入六位数密码") },
             maxLines = 1,
             visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
             trailingIcon = {
@@ -160,7 +160,16 @@ fun LoginScreen(
         Button(
             onClick = {
                 Log.d("我的登录", "LoginButtonDown")
-                viewModel.login(email, password,context,rememberMe)
+                // 验证密码和邮箱的合法性
+                if(viewModel.checkFormatOfEmailAndPassword(email, password)){
+                    // 如果合法
+                    viewModel.login(email, password,context,rememberMe)
+                }else{
+                    // 如果不合法
+                    // 弹窗
+                    viewModel.setMessage("用户名或者密码不合法，请确保用户名为标准邮箱格式，密码位数超过六位！")
+                    viewModel.showDialog()
+                }
                 //订阅ViewModel中的loginResult，一旦登陆成功这边就可以处理UI界面
             }
         ) {

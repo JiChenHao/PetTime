@@ -43,12 +43,16 @@ class UserViewModel @Inject constructor(private val petTimeRepository: PetTimeRe
 
     var message = MutableStateFlow<String>("加载中....")
 
-    private fun showDialog() {
+    fun showDialog() {
         _showDialog.value = true
     }
 
     fun unShowDialog() {
         _showDialog.value = false
+    }
+
+    fun setMessage(message1:String){
+        message.value = message1
     }
 
     private fun showRegisterDialog() {
@@ -57,6 +61,24 @@ class UserViewModel @Inject constructor(private val petTimeRepository: PetTimeRe
 
     fun unShowRegisterDialog() {
         _showRegisterSuccessDialog.value = false
+    }
+
+    /**
+     * 检查邮箱密码格式
+     * @param email
+     * @param password
+     * @return 邮箱密码格式是否合法:Boolean
+     * */
+    fun checkFormatOfEmailAndPassword(email: String, password: String): Boolean {
+        // 检查邮箱格式
+        val emailRegex = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
+        val isValidEmail = emailRegex.matches(email)
+
+        // 检查密码长度是否超过六位
+        val isValidPassword = password.length > 5
+
+        // 返回两者都满足条件的结果
+        return isValidEmail && isValidPassword
     }
 
     // 提供一个方法来fetchToken，每次进入Splash页面就执行一次
@@ -232,6 +254,7 @@ class UserViewModel @Inject constructor(private val petTimeRepository: PetTimeRe
         with(preferences.edit()) {
             remove("email")
             putBoolean("isUserLoggedIn", false)//更改登陆状态
+            remove("jwtToken")
             apply()
         }
         // 跳转操作在UI层完成

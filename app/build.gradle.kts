@@ -103,7 +103,7 @@ dependencies {
     //Hilt与Navigation
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
-    //retrofit2
+    //retrofit2 和 GSON
     implementation("com.squareup.retrofit2:retrofit:2.6.1")
     implementation("com.squareup.retrofit2:converter-gson:2.6.1")
 

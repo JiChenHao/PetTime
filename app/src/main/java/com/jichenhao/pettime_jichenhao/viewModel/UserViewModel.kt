@@ -10,21 +10,17 @@ import androidx.lifecycle.viewModelScope
 import com.jichenhao.pettime_jichenhao.model.PetTimeRepository
 import com.jichenhao.pettime_jichenhao.model.entity.UserInfo
 import com.jichenhao.pettime_jichenhao.model.entity.UserLoggedIn
+import com.jichenhao.pettime_jichenhao.model.network.ServiceCreator
 import com.jichenhao.pettime_jichenhao.model.network.oss.AliOssUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
-import javax.inject.Singleton
 
 @HiltViewModel
 class UserViewModel @Inject constructor(private val petTimeRepository: PetTimeRepository) :
@@ -78,7 +74,7 @@ class UserViewModel @Inject constructor(private val petTimeRepository: PetTimeRe
         }
     }
 
-    fun login(email: String, password: String) {
+    fun login(email: String, password: String, context: Context, rememberMe: Boolean) {
         Log.d("我的登录", "ViewModel调用")
         val userInfo = UserInfo(email, password, null)
         viewModelScope.launch {
@@ -86,12 +82,33 @@ class UserViewModel @Inject constructor(private val petTimeRepository: PetTimeRe
             val loginLiveData = petTimeRepository.login(userInfo)
             // 观察LiveData并处理结果
             loginLiveData.asFlow().collect { result ->
-                if (result.isSuccess) {
+                if (result.isSuccess) {// 登录成功
                     Log.d("我的登录", "viewModelScope协程中的Success")
+                    // 初始化已登录的用户信息
                     _loginResult.value = true
                     val userLoggedIn =
                         UserLoggedIn(result.getOrNull()!!.email, result.getOrNull()!!.profile)
                     _loggedInUser.value = userLoggedIn
+                    // 保存获取到的jwtToken到全局变量，同时写入SharedPreference
+                    val jwtToken = result.getOrNull()!!.jwtToken;
+                    ServiceCreator.setJwtToken(jwtToken)// 写入全局变量
+                    // 写入已登录用户的SharedPreference
+                    // 这样下次登录，如果看到登录状态为已登录，就直接读取用户名和jwtToken进入主页面
+                    val preferences =
+                        context.getSharedPreferences("login_state_prefs", Context.MODE_PRIVATE)
+                    if (rememberMe) {
+                        with(preferences.edit()) {
+                            putString("jwtToken",jwtToken)
+                            apply()
+                        }
+                    } else {
+                        //清空缓存内容
+                        // 如果不勾选“记住密码”，则清除之前存储的信息
+                        with(preferences.edit()) {
+                            remove("jwtToken")
+                            apply()
+                        }
+                    }
                 } else if (result.isFailure) {
                     Log.d("我的登录", "viewModelScope协程中的Failure")
                     _loginResult.value = false
@@ -237,12 +254,19 @@ class UserViewModel @Inject constructor(private val petTimeRepository: PetTimeRe
         return LoadedPrefsInfo(rememberMeLoaded, emailLoad, passwordLoaded)
     }
 
-    // 根据用户的选择，选择是否进行保存密码
+    /**
+     * 根据用户的选择，选择是否进行保存密码
+     * 如果选择保存密码，那么登录成功后的jwtToken也应该一并保存
+     * @param context: Context, // 上下文
+     * @param email: String, // 邮箱
+     * @param password: String, // 密码
+     * @param rememberMe: Boolean // 用户是否选择记住密码
+     * */
     fun saveCredentialsIfNeeded(
-        context: Context,
-        email: String,
-        password: String,
-        rememberMe: Boolean
+        context: Context, // 上下文
+        email: String, // 邮箱
+        password: String, // 密码
+        rememberMe: Boolean // 用户是否选择记住密码
     ) {
         val preferences = context.getSharedPreferences("login_prefs", Context.MODE_PRIVATE)
         if (rememberMe) {
@@ -284,10 +308,18 @@ class UserViewModel @Inject constructor(private val petTimeRepository: PetTimeRe
     fun loadSavedLoggedInUserEmail(context: Context) {
         val preferences = context.getSharedPreferences("login_state_prefs", Context.MODE_PRIVATE)
         val email = preferences.getString("email", "NOT FOUND")
+        val jwtToken = preferences.getString("jwtToken","");
         // 更新用户email以及头像数据
         _loggedInUser.value = UserLoggedIn(email!!, null)
         // 去数据库中查看是否有头像数据，如果有，更新头像数据
         getUserProfile(email)
+        // 初始化jwtToken
+        if (jwtToken != null) {
+            Log.d("jwtToken","读取SharedPreference中的jwtToken成功！内容为$jwtToken")
+            ServiceCreator.setJwtToken(jwtToken)
+        }else{
+            Log.d("jwtToken","错误！jwtToken不存在！")
+        }
     }
 }
 

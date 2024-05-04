@@ -7,6 +7,7 @@ import com.jichenhao.pettime_jichenhao.model.entity.PetCuisine
 import com.jichenhao.pettime_jichenhao.model.entity.PictureInfo
 import com.jichenhao.pettime_jichenhao.model.entity.UserInfo
 import com.jichenhao.pettime_jichenhao.model.entity.UserLoggedIn
+import com.jichenhao.pettime_jichenhao.model.entity.UserWithJwtToken
 
 interface PetTimeRepository {
     // 返回一个LiveData对象，其中包含登录操作的结果
@@ -14,7 +15,7 @@ interface PetTimeRepository {
     fun fetchStsToken(): LiveData<Result<Credentials>>
 
     // user
-    fun login(userInfo: UserInfo): LiveData<Result<UserInfo>>
+    fun login(userInfo: UserInfo): LiveData<Result<UserWithJwtToken>>
     fun addUser(userInfo: UserInfo): LiveData<Result<String>>
     fun getUserByEmail(email: String): LiveData<Result<UserInfo>>
     fun getUserProfile(email: String): LiveData<Result<String?>>

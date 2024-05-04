@@ -95,7 +95,7 @@ fun UploadPictureScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(10.dp), // 添加内边距为10dp,
-                horizontalArrangement = Arrangement.SpaceBetween,// 下面的两个组件位于一行的两侧
+                horizontalArrangement = Arrangement.Start,// 下面的两个组件位于一行的两侧
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(

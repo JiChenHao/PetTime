@@ -5,11 +5,12 @@ import com.jichenhao.pettime_jichenhao.model.entity.PetCuisine
 import com.jichenhao.pettime_jichenhao.model.entity.PictureInfo
 import com.jichenhao.pettime_jichenhao.model.entity.StsResult
 import com.jichenhao.pettime_jichenhao.model.entity.UserInfo
+import com.jichenhao.pettime_jichenhao.model.entity.UserWithJwtToken
 
 /*
 * sealed class Result 定义了一个密封类。密封类是一种特殊的抽象类，其所有子类都必须在同一个文件中声明。
-* 这种设计使得编译器可以知道 Result 类的所有可能子类，便于进行类型检查和模式匹配。*/
-// 定义泛型响应类
+* 这种设计使得编译器可以知道 Result 类的所有可能子类，便于进行类型检查和模式匹配。
+* */
 sealed class GenericResponse<out T> {
     abstract val success: Boolean   // success（连接是否成功）
     abstract val data: T            // data（返回的数据
@@ -25,9 +26,9 @@ data class StsResponse(
 
 data class LoginResponse(
     override val success: Boolean,
-    override val data: UserInfo?,// 如果不是null就是登录成功，里面包含了用户头像数据
+    override val data: UserWithJwtToken?,// 如果不是null就是登录成功，里面包含了用户头像数据，以及包含身份凭证的jwtToken
     override val message: String
-) : GenericResponse<UserInfo?>()
+) : GenericResponse<UserWithJwtToken?>()
 
 data class PetResponse(
     override val success: Boolean,

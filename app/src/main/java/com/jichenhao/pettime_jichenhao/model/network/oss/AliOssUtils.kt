@@ -52,7 +52,6 @@ object AliOssUtils {
         Log.d("阿里云OSSToken：", "accessKey:${accessKey}\n secretKey:${secretKey}")
     }
 
-
     /*
     * init代码块在对象实例化时立即执行，
     * 这里的OSSLog.enableLog()开启了阿里云OSS SDK的日志输出功能，以便调试和跟踪上传过程中的信息。

@@ -34,7 +34,6 @@ class TakePhoto : ActivityResultContract<Unit?, PictureResult>() {
                     addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
                 }
             }
-
         }
 
     override fun parseResult(resultCode: Int, intent: Intent?): PictureResult {
@@ -47,6 +46,7 @@ class TakePhoto : ActivityResultContract<Unit?, PictureResult>() {
         if (!fileFolder.exists()) {
             fileFolder.mkdirs()
         }
+
         val file = File(fileFolder, "${imageName}.jpeg")
         if (!file.exists()) {
             file.createNewFile()

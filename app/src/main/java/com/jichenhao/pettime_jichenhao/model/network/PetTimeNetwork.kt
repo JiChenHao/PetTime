@@ -36,7 +36,11 @@ object PetTimeNetwork {
     suspend fun fetchStsToken(): StsResponse = StsApi.getStsToken().await()
 
     //===User相关===
-    // 通过用户输入的用户信息去数据库中查询相关数据,返回是否登陆成功的布尔值
+    /**
+     * 登录
+     * @param userInfo用户登录信息
+     * @return loginResponse用户登录结果，成功则包含用户头像和用户凭证
+     * */
     suspend fun login(userInfo: UserInfo): LoginResponse = userService.login(userInfo).await()
 
     // 注册之前先看看有没有重合的用户
@@ -116,7 +120,6 @@ object PetTimeNetwork {
                         continuation.resumeWithException(IOException("Unexpected code ${response.code()}. Server responded with error."))
                     }
                 }
-
                 override fun onFailure(call: Call<T>, t: Throwable) {
                     continuation.resumeWithException(t)
                 }

@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -23,10 +24,13 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -207,237 +211,266 @@ fun PetAddScreen(
         }
     }
 
-// 添加宠物表格。本身
-    Column {
-        Card(
-            onClick = { /*TODO*/ },
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-            ),
-            modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 8.dp) // 添加合适的内边距
-                .fillMaxWidth(),
-            elevation = CardDefaults.cardElevation(
-                defaultElevation = 6.dp
-            ),
-        ) {
-            Column(
+    // 主体
+    Scaffold(
+        topBar = {
+            // 单独的顶部导航，因为不只要放回退栏，还要放一个删除按钮
+            // 返回键 、 删除键
+            Row(
                 modifier = Modifier
-                    .padding(all = 16.dp)// Card内部内容的内边距
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.Center, // 内容垂直居中
-                horizontalAlignment = Alignment.Start, // 内容水平开头
+                    .fillMaxWidth()
+                    .padding(10.dp), // 添加内边距为10dp,
+                horizontalArrangement = Arrangement.SpaceBetween,// 下面的两个组件位于一行的两侧
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                // 头像行
-                Row(
-                    modifier = Modifier
-                        .size(100.dp) // 设置固定的直径大小，您可以根据需求调整这个数值
-                        .clip(CircleShape)
-                        .fillMaxWidth(), // 设置形状为圆形,
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-
-                    // 可点击的图片，点击就能选择图片上传
-                    Box(
-                        modifier = Modifier
-                            .clickable {
-                                showBottomSheet = true// 点击显示底部栏
-                            }
-                            .clip(CircleShape),
-                    ) {
-                        AsyncImage(
-                            model = localImgPath, contentDescription = null,
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .placeholder(
-                                    visible = localImgPath == Uri.EMPTY,
-                                    color = Color(231, 234, 239, 255),
-                                    highlight = PlaceholderHighlight.shimmer(),
-                                )
-                                .fillMaxSize(),
-                            contentScale = ContentScale.Crop,
-                        )
-                    }
-                }
-                // 姓名行
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-
-                    OutlinedTextField(
-                        value = petName,
-                        onValueChange = {
-                            petName = it
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .focusable(true),
-                        maxLines = 1,
+                IconButton(
+                    onClick = {
+                        onNavigateBack()
+                    },
+                    colors = IconButtonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.Black,
+                        disabledContainerColor = Color.White,
+                        disabledContentColor = Color.Black
                     )
-
-                }
-                // 性别行
-                Row(
-                    modifier = Modifier.padding(16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column(
-                        modifier = Modifier.weight(1f),
-                    ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            Text(
-                                text = "性别:",
-                                style = MaterialTheme.typography.bodyLarge
-                            )
-                        }
-                    }
-                    Column(
-                        modifier = Modifier.weight(1f),
-                    ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Column(
-                                verticalArrangement = Arrangement.SpaceBetween,
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                RadioButton(
-                                    selected = petSex,
-                                    onClick = { petSex = true },
-                                    modifier = Modifier.semantics {
-                                        contentDescription = "Localized Description"
-                                    }
-                                )
-                                Text(text = "弟弟")
-
-                            }
-                            Column(
-                                verticalArrangement = Arrangement.SpaceBetween,
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                RadioButton(
-                                    selected = !petSex,
-                                    onClick = { petSex = false },
-                                    modifier = Modifier.semantics {
-                                        contentDescription = "Localized Description"
-                                    }
-                                )
-                                Text(text = "妹妹")
-                            }
-
-                        }
-                    }
+                    Icon(imageVector = Icons.Default.ArrowBackIosNew, contentDescription = "")
                 }
-
-                // 品种行
-                Row(
-                    modifier = Modifier.padding(16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+            }
+        }) { innerPadding ->
+        // 添加宠物表格。本身
+        Column(
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            Card(
+                onClick = { /*TODO*/ },
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                ),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp) // 添加合适的内边距
+                    .fillMaxWidth(),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 6.dp
+                ),
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(all = 16.dp)// Card内部内容的内边距
+                        .fillMaxWidth(),
+                    verticalArrangement = Arrangement.Center, // 内容垂直居中
+                    horizontalAlignment = Alignment.Start, // 内容水平开头
                 ) {
-                    Column(
-                        modifier = Modifier.weight(1f),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                    // 头像行
+                    Row(
+                        modifier = Modifier
+                            .size(100.dp) // 设置固定的直径大小，您可以根据需求调整这个数值
+                            .clip(CircleShape)
+                            .fillMaxWidth(), // 设置形状为圆形,
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            text = "品种:",
-                            style = MaterialTheme.typography.bodyLarge
-                        )
-                    }
-
-                    Column(
-                        modifier = Modifier.weight(1f),
-                    ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center
+                        // 可点击的图片，点击就能选择图片上传
+                        Box(
+                            modifier = Modifier
+                                .clickable {
+                                    showBottomSheet = true// 点击显示底部栏
+                                }
+                                .clip(CircleShape),
                         ) {
-                            OutlinedTextField(
-                                value = petBreeds,
-                                onValueChange = {
-                                    petBreeds = it
-                                },
+                            AsyncImage(
+                                model = localImgPath, contentDescription = null,
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .focusable(true),
-                                maxLines = 1,
+                                    .clip(CircleShape)
+                                    .placeholder(
+                                        visible = localImgPath == Uri.EMPTY,
+                                        color = Color(231, 234, 239, 255),
+                                        highlight = PlaceholderHighlight.shimmer(),
+                                    )
+                                    .fillMaxSize(),
+                                contentScale = ContentScale.Crop,
                             )
                         }
                     }
-                }
+                    // 姓名行
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
 
-                // 年龄行
-                Row(
-                    modifier = Modifier.padding(16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(
-                        modifier = Modifier.weight(1f),
+                        OutlinedTextField(
+                            value = petName,
+                            onValueChange = {
+                                petName = it
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .focusable(true),
+                            maxLines = 1,
+                        )
+
+                    }
+                    // 性别行
+                    Row(
+                        modifier = Modifier.padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center
+                        Column(
+                            modifier = Modifier.weight(1f),
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    text = "性别:",
+                                    style = MaterialTheme.typography.bodyLarge
+                                )
+                            }
+                        }
+                        Column(
+                            modifier = Modifier.weight(1f),
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Column(
+                                    verticalArrangement = Arrangement.SpaceBetween,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    RadioButton(
+                                        selected = petSex,
+                                        onClick = { petSex = true },
+                                        modifier = Modifier.semantics {
+                                            contentDescription = "Localized Description"
+                                        }
+                                    )
+                                    Text(text = "弟弟")
+
+                                }
+                                Column(
+                                    verticalArrangement = Arrangement.SpaceBetween,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    RadioButton(
+                                        selected = !petSex,
+                                        onClick = { petSex = false },
+                                        modifier = Modifier.semantics {
+                                            contentDescription = "Localized Description"
+                                        }
+                                    )
+                                    Text(text = "妹妹")
+                                }
+
+                            }
+                        }
+                    }
+
+                    // 品种行
+                    Row(
+                        modifier = Modifier.padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(
+                            modifier = Modifier.weight(1f),
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
-                                text = "年龄:",
+                                text = "品种:",
                                 style = MaterialTheme.typography.bodyLarge
                             )
                         }
-                    }
-                    Column(
-                        modifier = Modifier.weight(1f),
-                    ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically
+
+                        Column(
+                            modifier = Modifier.weight(1f),
                         ) {
-                            TextButton(onClick = { petAge-- }) {
-                                Icon(imageVector = Icons.Filled.Remove, contentDescription = "")
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                OutlinedTextField(
+                                    value = petBreeds,
+                                    onValueChange = {
+                                        petBreeds = it
+                                    },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .focusable(true),
+                                    maxLines = 1,
+                                )
                             }
-                            Text(
-                                text = "${petAge}岁",
-                                style = MaterialTheme.typography.bodyLarge
-                            )
-                            TextButton(onClick = { petAge++ }) {
-                                Icon(imageVector = Icons.Filled.Add, contentDescription = "")
+                        }
+                    }
+
+                    // 年龄行
+                    Row(
+                        modifier = Modifier.padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(
+                            modifier = Modifier.weight(1f),
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    text = "年龄:",
+                                    style = MaterialTheme.typography.bodyLarge
+                                )
+                            }
+                        }
+                        Column(
+                            modifier = Modifier.weight(1f),
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                TextButton(onClick = { petAge-- }) {
+                                    Icon(imageVector = Icons.Filled.Remove, contentDescription = "")
+                                }
+                                Text(
+                                    text = "${petAge}岁",
+                                    style = MaterialTheme.typography.bodyLarge
+                                )
+                                TextButton(onClick = { petAge++ }) {
+                                    Icon(imageVector = Icons.Filled.Add, contentDescription = "")
+                                }
                             }
                         }
                     }
                 }
             }
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Button(onClick = {
-                // 根据表格信息构建要上传的对象
-                val petToAdd = Pet(
-                    0,
-                    petName,
-                    petSex,
-                    petBreeds,
-                    petAge,
-                    userEmail,
-                    profile
-                )
-                Log.d("添加宠物到DB", "要添加的宠物信息为：$petToAdd")
-                // 开始上传宠物对象到数据库中
-                petViewModel.addPet(petToAdd)
-                // 只有出了结果，才能够显示按钮,使用showDialogButton控制
-            }) {
-                Text(text = "确认添加")
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Button(onClick = {
+                    // 根据表格信息构建要上传的对象
+                    val petToAdd = Pet(
+                        0,
+                        petName,
+                        petSex,
+                        petBreeds,
+                        petAge,
+                        userEmail,
+                        profile
+                    )
+                    Log.d("添加宠物到DB", "要添加的宠物信息为：$petToAdd")
+                    // 开始上传宠物对象到数据库中
+                    petViewModel.addPet(petToAdd)
+                    // 只有出了结果，才能够显示按钮,使用showDialogButton控制
+                }) {
+                    Text(text = "确认添加")
+                }
             }
         }
     }

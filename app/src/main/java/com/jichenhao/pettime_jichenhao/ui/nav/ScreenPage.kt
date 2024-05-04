@@ -15,7 +15,6 @@ sealed class ScreenPage(
         iconSelect = 0,
         iconUnselect = 0,
     )
-
     object Login : ScreenPage(
         route = "Login",
         resId = 0,

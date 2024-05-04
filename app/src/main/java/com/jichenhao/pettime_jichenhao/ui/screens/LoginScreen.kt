@@ -160,7 +160,7 @@ fun LoginScreen(
         Button(
             onClick = {
                 Log.d("我的登录", "LoginButtonDown")
-                viewModel.login(email, password)
+                viewModel.login(email, password,context,rememberMe)
                 //订阅ViewModel中的loginResult，一旦登陆成功这边就可以处理UI界面
             }
         ) {
@@ -175,5 +175,4 @@ fun LoginScreen(
             Text("注册")
         }
     }
-
 }

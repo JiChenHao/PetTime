@@ -55,7 +55,9 @@ class PetTimeRepositoryImpl @Inject constructor(
         emit(result)
     }
 
-    // user
+    /**
+     * @return UserWithJwtToken带有用户凭证
+     * */
     override fun login(userInfo: UserInfo) = fire(Dispatchers.IO) {
         val loginResponse = petTimeNetwork.login(userInfo)
         if (loginResponse.success && loginResponse.data != null) {//如果网络没有问题

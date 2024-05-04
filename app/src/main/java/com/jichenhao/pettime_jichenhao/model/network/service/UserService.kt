@@ -20,7 +20,6 @@ interface UserService {
     @GET("getUserByEmail")
     fun getUserByEmail(@Query("email") email: String): Call<UserResponse>
 
-    //
     // 根据已登录的用户的email拉取头像信息，返回一个结果类，其中的data属性就是我们要的结果
     @GET("getUserProfile")
     fun getUserProfile(@Query("email") email: String): Call<OperationResponse>

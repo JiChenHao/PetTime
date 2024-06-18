@@ -26,7 +26,6 @@ import kotlinx.coroutines.launch
 
 class PhotoComponent {
 
-
     //这两行声明了用于启动相册选取图片和拍照操作的结果启动器，它们是在Android Compose中用来处理ActivityResult请求的，
     // 类型分别为ManagedActivityResultLauncher<Unit?, PictureResult>。
     private var openGalleryLauncher: ManagedActivityResultLauncher<Unit?, PictureResult>? = null
@@ -47,11 +46,10 @@ class PhotoComponent {
     }
 
 
-    /*
+    /**
     * 分别定义了两个MutableSharedFlow，用于传递相机和相册权限的状态变化，
     * 当有新的权限检查结果时，通过setCheck...PermissionState方法将结果放入流中。
     * */
-    //监听拍照权限flow
     private val checkCameraPermission =
         MutableSharedFlow<Boolean?>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
@@ -62,10 +60,10 @@ class PhotoComponent {
     }
 
 
-    /*
+    /**
     * 这两个方法分别用于将相机和相册权限的检查结果发送到对应的SharedFlow中。
     * */
-    //相册权限flow
+    // 相册权限flow
     private val checkGalleryImagePermission =
         MutableSharedFlow<Boolean?>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
@@ -76,9 +74,11 @@ class PhotoComponent {
     }
 
 
-    // 这个方法被标记为@Composable，意味着它可以被用于Compose的UI构建函数中。
-    // 在这个方法内部，它配置了结果启动器并设置了各种权限状态的观察者。
+
+
     /**
+     * 这个方法被标记为@Composable，意味着它可以被用于Compose的UI构建函数中
+     * 在这个方法内部，它配置了结果启动器并设置了各种权限状态的观察者。
      * @param galleryCallback 相册结果回调
      * @param graphCallback 拍照结果回调
      * @param permissionRationale 权限拒绝状态回调

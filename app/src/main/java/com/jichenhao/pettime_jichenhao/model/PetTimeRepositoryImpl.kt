@@ -21,9 +21,12 @@ class PetTimeRepositoryImpl @Inject constructor(
     private val petTimeNetwork: PetTimeNetwork
 ) : PetTimeRepository {
 
-    //fire是一个按照liveData()函数参数接收标准定义的一个高阶函数，在fire()内部线调用一下liveData()函数，
-    //然后在liveData函数代码块中统一进行了try catch处理，并将结果使用emit方法发射出去，从而避免了每一个调用都要
-    //用一次try catch的繁琐
+    /**
+     * fire是一个按照liveData()函数参数接收标准定义的一个高阶函数，
+     * 在fire()内部线调用一下liveData()函数，
+     * 然后在liveData函数代码块中统一进行了try catch处理，并将结果使用emit方法发射出去，从而避免了每一个调用都要
+     * 用一次try catch的繁琐
+     */
     private fun <T> fire(context: CoroutineContext, block: suspend () -> Result<T>) =
         liveData<Result<T>>(context) {
             val result = try {

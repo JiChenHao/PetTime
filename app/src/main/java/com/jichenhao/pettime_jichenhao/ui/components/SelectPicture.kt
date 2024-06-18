@@ -6,7 +6,10 @@ import android.content.Intent
 import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContract
 
-// 添加拍照intent
+/**
+ * 用来选择图片，创建并获取图片的句柄
+ * @author: 吉晨豪
+ */
 class SelectPicture : ActivityResultContract<Unit?, PictureResult>() {
 
     private var context: Context? = null

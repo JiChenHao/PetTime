@@ -64,7 +64,6 @@ class MainActivity : ComponentActivity() {
                     var selectNumber by remember {
                         mutableIntStateOf(1)
                     }
-
                     //navController.currentBackStackEntryAsState()得到一个状态对象，
                     // 它会随着当前导航堆栈顶部变更而更新。这个状态对象包含了一个NavBackStackEntry的实时值
                     // NavBackStackEntry包含了关于当前页面的各种信息，如路由、标签、参数等

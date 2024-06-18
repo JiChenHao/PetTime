@@ -76,7 +76,7 @@ fun PetAddScreen(
     val loggedInUser by userViewModel.loggedInUser.collectAsState()
     val userEmail = loggedInUser.email
     //输入框、选择框的变量
-    var petName by remember { mutableStateOf("请输入您爱宠的名字") }
+    var petName by remember { mutableStateOf("") }
     var petSex by remember { mutableStateOf(true) }
     var petBreeds by remember { mutableStateOf("") }
     var petAge by remember { mutableIntStateOf(0) }
@@ -303,6 +303,7 @@ fun PetAddScreen(
                             onValueChange = {
                                 petName = it
                             },
+                            label = { Text("请输入爱宠的名字") },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .focusable(true),
@@ -396,6 +397,7 @@ fun PetAddScreen(
                                     onValueChange = {
                                         petBreeds = it
                                     },
+                                    label = { Text("请输入品种") },
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .focusable(true),

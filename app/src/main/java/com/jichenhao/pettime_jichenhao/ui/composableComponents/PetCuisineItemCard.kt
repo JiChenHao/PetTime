@@ -100,7 +100,6 @@ fun PetCuisineItemCard(
             )
             Spacer(modifier = Modifier.size(5.dp))
             Text(text = petCuisine.food_name)
-
         }
     }
 }

@@ -27,7 +27,6 @@ import com.jichenhao.pettime_jichenhao.model.entity.UserLoggedIn
 
 @Composable
 fun UserInfoCard(userLoggedIn: UserLoggedIn) {
-
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -85,5 +84,4 @@ fun UserInfoCard(userLoggedIn: UserLoggedIn) {
             }
         }
     }
-
 }

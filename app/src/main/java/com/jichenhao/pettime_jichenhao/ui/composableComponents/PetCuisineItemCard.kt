@@ -235,8 +235,8 @@ fun PetCuisineWithBar(
     var listToShow by remember {
         mutableStateOf(fruitList)
     }
-    Scaffold(
-// 本页定制顶部栏，同时也要显示外部的顶部栏
+
+    Scaffold(// 本页定制顶部栏，同时也要显示外部的顶部栏
         topBar = {
             Row(
                 modifier = Modifier
@@ -266,8 +266,7 @@ fun PetCuisineWithBar(
         Box(
             modifier = Modifier.padding(innerPadding)
         ) {
-            Row {
-                // 卡片式侧边栏
+            Row {// 卡片式侧边栏
                 Box(
                     modifier = Modifier
                         .fillMaxHeight()
@@ -381,8 +380,7 @@ fun PetCuisineWithBar(
                         }
                     }
                 }
-                // 显示内容
-                ShowPetCuisineByCanEat(
+                ShowPetCuisineByCanEat(// 显示内容
                     petCuisineViewModel,
                     listToShow,
                     chosePetType,

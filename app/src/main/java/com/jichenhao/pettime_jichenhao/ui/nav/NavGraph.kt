@@ -36,20 +36,8 @@ fun NavGraph(
     petCuisineViewModel: PetCuisineViewModel
 ) {
     Log.d("MyNavGraph", "MyNavGraph被调用了")
-    //导航控制中心
-    /* NavHost
-    NavHost是Compose Navigation的核心组件，它负责构建整个应用的导航图（navigation graph）。在这里，它接收两个主要参数：
-    navController: 是一个NavHostController实例，它是导航图的控制器，用于发起屏幕间的跳转操作。
-    startDestination: 指定导航图中的起始页面路由字符串，这里是ScreenPage.Home.route，即应用启动后首先显示的页面。
-    * */
+
     NavHost(navController, startDestination = ScreenPage.Splash.route) { // 设置起始页为登录页
-        /*
-        * composable
-        在NavHost内部使用composable函数来声明每一个可导航到的屏幕页面。
-        * 每个composable块接受一个路由字符串参数和一个lambda表达式，在该表达式内编写实际的UI布局代码。
-        参数route对应于页面的唯一标识符，当调用navController.navigate(route)时，
-        * Compose会找到与之匹配的composable并显示其中的内容。
-        * */
         composable(ScreenPage.Splash.route) {
             SplashScreen(
                 userViewModel,

@@ -25,7 +25,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptionsBuilder
 import com.jichenhao.pettime_jichenhao.ui.nav.ScreenPage
 
-//底部导航栏，可以在任意界面引入，使用MyNavGraph所构建的导航图进行导航
+/**
+ *底部导航栏，可以在任意界面引入，使用MyNavGraph所构建的导航图进行导航
+ * @param selectedNum 默认选中的导航栏
+ * @param onNavigateToMainScreen 跳转到主页
+ * @param onNavigateToKnowledgeScreen 跳转到知识
+ * @param onNavigateToPetScreen 跳转到宠物
+ * @param onNavigateToUserScreen 跳转到用户
+ */
 @Composable
 fun PetTimeBottomNavigationBar(
     selectedNum: Int,//用来更换图标
@@ -34,27 +41,8 @@ fun PetTimeBottomNavigationBar(
     onNavigateToPetScreen: () -> Unit,
     onNavigateToUserScreen: () -> Unit,
 ) {
-
     var hereSelectedNum by rememberSaveable {
         mutableIntStateOf(selectedNum)
-    }
-
-    /*
-    * 另外，需要注意的一点是，如果跳转的目标路由地址不存在时，
-    * NavController会直接抛出IllegalArgumentException异常，导致应用崩溃，
-    * 因此在执行navigate方法时我们应该进行异常捕获，并给出用户提示：
-    * */
-    //封装定义一个跳转+报错的函数，方便重复调用
-    fun NavHostController.navigateWithCall(
-        route: String,
-        onNavigateFailed: ((IllegalArgumentException) -> Unit)?,
-        builder: NavOptionsBuilder.() -> Unit
-    ) {
-        try {
-            this.navigate(route, builder)
-        } catch (e: IllegalArgumentException) {
-            onNavigateFailed?.invoke(e)
-        }
     }
     //===END_定义跳转函数===
 
@@ -136,5 +124,22 @@ fun PetTimeBottomNavigationBar(
         },
         contentPadding = PaddingValues(horizontal = 16.dp),
     )
+}
 
+/**
+* 另外，需要注意的一点是，如果跳转的目标路由地址不存在时，
+* NavController会直接抛出IllegalArgumentException异常，导致应用崩溃，
+* 因此在执行navigate方法时我们应该进行异常捕获，并给出用户提示：
+* */
+//封装定义一个跳转+报错的函数，方便重复调用
+fun NavHostController.navigateWithCall(
+    route: String,
+    onNavigateFailed: ((IllegalArgumentException) -> Unit)?,
+    builder: NavOptionsBuilder.() -> Unit
+) {
+    try {
+        this.navigate(route, builder)
+    } catch (e: IllegalArgumentException) {
+        onNavigateFailed?.invoke(e)
+    }
 }

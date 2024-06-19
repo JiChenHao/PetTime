@@ -5,7 +5,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-// 可以根据传入的数字判定自己是否处于被选中状态，从而表现出不同的样式
+/**
+ * 可以根据传入的数字判定自己是否处于被选中状态，从而表现出不同的样式
+ */
 @Composable
 fun MyTextWithCondition(
     selectNum: Int,// 如果传入的数字与他相同就是被选中了，否则就是没有被选中

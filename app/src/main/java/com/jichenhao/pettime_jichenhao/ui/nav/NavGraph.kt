@@ -41,6 +41,7 @@ fun NavGraph(
         composable(ScreenPage.Splash.route) {
             SplashScreen(
                 userViewModel,
+                petCuisineViewModel,
                 onNavigateToMainScreen = { navController.navigate(ScreenPage.Main.route) },
                 onNavigateToLoginScreen = { navController.navigate(ScreenPage.Login.route) },
                 onNavigatePopBackStack = { navController.popBackStack() } // 清空返回栈
@@ -49,6 +50,8 @@ fun NavGraph(
         composable(ScreenPage.Login.route) {
             LoginScreen(
                 userViewModel,
+                petViewModel,
+                petCuisineViewModel,
                 onNavigateToMainScreen = { navController.navigate(ScreenPage.Main.route) },
                 onNavigateToRegisterScreen = { navController.navigate(ScreenPage.Register.route) },
                 onNavigatePopBackStack = { navController.popBackStack() } // 清空返回栈

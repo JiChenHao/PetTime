@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 
 /**
  * 拦截请求并在请求上面添加header信息（身份凭证）
- * @param jwtToken身份凭证
+ * @param jwtToken 身份凭证
  */
 // 定义一个名为AuthInterceptor的拦截器类，它继承自OkHttp3中的Interceptor接口
 // 这个拦截器的作用是在每个HTTP请求发出之前动态地向请求头中添加JWT令牌，以便进行后端的身份验证

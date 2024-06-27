@@ -259,7 +259,6 @@ class UserViewModel @Inject constructor(private val petTimeRepository: PetTimeRe
         }
         // 跳转操作在UI层完成
     }
-
     // ===关于记住密码、记住登录状态的内容===
     data class LoadedPrefsInfo(
         val rememberMeLoaded: Boolean,

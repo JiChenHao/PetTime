@@ -25,8 +25,6 @@ fun KnowledgeScreen(
     onNavigateToPetCuisineDetail: () -> Unit, // 用于点击卡片跳转到食物详情
 ) {
 
-    // 刷新食谱列表
-    petCuisineViewModel.getAllPetCuisineList()
     // 取出在ViewModel中的食谱信息
     val petCuisineList by petCuisineViewModel.petCuisineList.collectAsState()
 

@@ -38,11 +38,15 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.jichenhao.pettime_jichenhao.viewModel.PetCuisineViewModel
+import com.jichenhao.pettime_jichenhao.viewModel.PetViewModel
 import com.jichenhao.pettime_jichenhao.viewModel.UserViewModel
 
 @Composable
 fun LoginScreen(
     viewModel: UserViewModel,
+    petViewModel: PetViewModel,
+    petCuisineViewModel: PetCuisineViewModel,
     onNavigateToMainScreen: () -> Unit,
     onNavigateToRegisterScreen: () -> Unit,
     onNavigatePopBackStack: () -> Unit
@@ -95,6 +99,10 @@ fun LoginScreen(
             //登陆成功就根据用户的选择去保存密码
             viewModel.saveCredentialsIfNeeded(context, email, password, rememberMe)
             // 跳转之前清空返回栈，使得用户无法使用返回键重新回到login页面，只能通过logout按钮
+            // 加载宠物信息
+            petViewModel.getPetListByUserEmail(viewModel.loggedInUser.value.email)
+            // 加载宠物食谱信息,需要在加载jwtToken之后
+            petCuisineViewModel.getAllPetCuisineList()
             onNavigatePopBackStack()
             onNavigateToMainScreen()
         }
